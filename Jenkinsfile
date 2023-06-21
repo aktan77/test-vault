@@ -23,11 +23,15 @@ pipeline {
                     equals expected: true, actual: params.destroy
                 }
             }
+            // steps {
+            //     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cres']]) {
+            //     sh 'terraform plan'
+            // }
             steps {
-                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cres']]) {
+                withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
                 sh 'terraform plan'
+                }
             }
-        }
 	}
         stage('Approval') {
            when {
