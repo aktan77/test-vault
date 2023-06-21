@@ -81,5 +81,15 @@ pipeline {
             sh 'terraform destroy --auto-approve'    
             }
         }
+        stage('Run Bash Script') {
+            steps {
+                sh '''
+                    #!/bin/bash
+                    # For example:
+                    echo "Hello, Jenkins!"
+                    echo "This is a bash script running in a Jenkins pipeline."
+                '''
+            }
+        }
     }
 }
