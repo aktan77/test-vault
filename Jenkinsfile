@@ -23,10 +23,6 @@ pipeline {
                     equals expected: true, actual: params.destroy
                 }
             }
-            // steps {
-            //     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-creds']]) {
-            //     sh 'terraform plan'
-            // }
             steps {
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding', 
@@ -61,8 +57,15 @@ pipeline {
                     equals expected: true, actual: params.destroy
                 }
             }
-            steps {                
+            steps {     
+                withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding', 
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
+                        credentialsId: 'aws-creds'
+                    ]]) {           
                 sh 'terraform apply --auto-approve'
+                    }
             }
         }
         stage('Destroy') {
