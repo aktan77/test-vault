@@ -35,8 +35,9 @@ pipeline {
                         credentialsId: 'aws-creds'
                     ]]) {
                         sh 'terraform plan'
-            }
-	}
+                }
+	        }
+        }
         stage('Approval') {
            when {
                not {
