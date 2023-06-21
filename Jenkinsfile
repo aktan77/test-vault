@@ -38,7 +38,6 @@ pipeline {
                     equals expected: true, actual: params.destroy
                 }
            }
-
            steps {
                script {
                     def plan = readFile 'tfplan.txt'
@@ -53,29 +52,17 @@ pipeline {
                     equals expected: true, actual: params.destroy
                 }
             }
-            steps {
-                
-                sh 'terraform apply --auto-approve -var "cred=$GCLOUD_CREDS"'
-            
+            steps {                
+                sh 'terraform apply --auto-approve'
             }
         }
         stage('Destroy') {
             when {
                 equals expected: true, actual: params.destroy
-            }
-        
-        steps {
-           
-           sh 'terraform destroy --auto-approve -var "cred=$GCLOUD_CREDS"'
-           
+            }       
+        steps {           
+           sh 'terraform destroy --auto-approve'    
         }
     }
-        stage('deploytokubernetes') {
-           steps {
-              sh 'gcloud container clusters get-credentials env.CLUSTER_NAME --zone env.LOCATION --project env.PROJECT_ID'
-              step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
-    
-            }
-      }
-    }
+}
 }
