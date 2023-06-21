@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'jenkins', url: 'https://github.com/aktan77/test-vault.git'
+                git branch: 'main', credentialsId: 'jenkins', url: 'https://github.com/aktan77/test-vault'
             }
         }
         stage('Terraform Init') {
