@@ -28,9 +28,13 @@ pipeline {
             //     sh 'terraform plan'
             // }
             steps {
-                withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
-                sh 'terraform plan'
-                }
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding', 
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
+                        credentialsId: 'aws-creds'
+                    ]]) {
+                        sh 'terraform plan'
             }
 	}
         stage('Approval') {
