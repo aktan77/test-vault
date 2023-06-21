@@ -24,7 +24,7 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
+                withCredentials([awsCredentialsId: 'aws-creds']) {
                 sh 'terraform plan'
             }
         }
