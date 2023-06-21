@@ -4,7 +4,6 @@ pipeline {
         string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
         booleanParam(name: 'destroy', defaultValue: false, description: 'Destroy Terraform build?')
-
     }
     stages {
         stage('Git Checkout') {
@@ -12,6 +11,12 @@ pipeline {
                 git branch: 'main', credentialsId: 'jenkins', url: 'https://github.com/aktan77/test-vault'
             }
         }
+        stage('Terraform Validate') {
+            steps {
+                sh 'terraform validate'
+            }
+        }
+
         stage('Terraform Init') {
             steps {
                 sh 'terraform init -reconfigure'
@@ -71,10 +76,10 @@ pipeline {
         stage('Destroy') {
             when {
                 equals expected: true, actual: params.destroy
-            }       
-        steps {           
-           sh 'terraform destroy --auto-approve'    
+            } 
+            steps {          
+            sh 'terraform destroy --auto-approve'    
+            }
         }
     }
-}
 }
