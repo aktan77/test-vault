@@ -14,15 +14,15 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'cd dev/us-east-1'
-                sh 'terraform init -reconfigure'
+                sh '''cd dev/us-east-1
+                    terraform init -reconfigure'''
             }
         }
         stage('Terraform Validate') {
             steps {
-                sh 'cd dev/us-east-1'
-                sh 'terraform validate'
-                sh 'pwd'
+                sh '''cd dev/us-east-1
+                    terraform validate
+                    pwd'''
             }
         }
         stage('Terraform Plan') {
@@ -38,10 +38,10 @@ pipeline {
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
                         credentialsId: 'aws-creds'
                     ]]) {
-                        sh 'ls'
-                        sh 'cd dev/us-east-1'
-                        sh 'ls'
-                        sh 'terraform plan'
+                        sh '''ls
+                            cd dev/us-east-1
+                            ls
+                            terraform plan'''
                 }
 	        }
         }
