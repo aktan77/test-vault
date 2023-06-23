@@ -38,7 +38,7 @@ pipeline {
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
                         credentialsId: 'aws-creds'
                     ]]) {
-                        sh 'cd dev/us-east-1'
+                       // sh 'cd dev/us-east-1'
                         sh 'terraform plan'
                 }
 	        }
@@ -87,7 +87,7 @@ pipeline {
         }
         stage('Run Bash Script') {
             steps {
-                
+
                 sh '''
                     #!/bin/bash
                     # For example:
