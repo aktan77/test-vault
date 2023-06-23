@@ -74,7 +74,9 @@ pipeline {
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
                     credentialsId: 'aws-creds']]) {           
-                    sh 'terraform apply --auto-approve'
+                    sh '''
+                        cd dev/us-east-1
+                        terraform apply --auto-approve'''
                 }
             }
         }
@@ -83,8 +85,8 @@ pipeline {
                 equals expected: true, actual: params.destroy
             } 
             steps {      
-                sh 'cd dev/us-east-1'    
-                sh 'terraform destroy --auto-approve'    
+                sh '''cd dev/us-east-1    
+                    terraform destroy --auto-approve'''  
             }
         }
         stage('Run Bash Script') {
