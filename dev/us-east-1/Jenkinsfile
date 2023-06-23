@@ -40,7 +40,7 @@ pipeline {
                     ]]) {
                         sh 'ls'
                         sh 'cd dev/us-east-1'
-                        sh 'cd dev/us-east-1'
+                        sh 'ls'
                         sh 'terraform plan'
                 }
 	        }
