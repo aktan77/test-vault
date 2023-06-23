@@ -11,16 +11,18 @@ pipeline {
                 git branch: 'main', credentialsId: 'jenkins', url: 'https://github.com/aktan77/test-vault'
             }
         }
-        stage('Terraform Validate') {
-            steps {
-                sh 'terraform validate'
-                sh 'pwd'
-            }
-        }
 
         stage('Terraform Init') {
             steps {
+                sh 'cd dev/us-east-1'
                 sh 'terraform init -reconfigure'
+            }
+        }
+        stage('Terraform Validate') {
+            steps {
+                sh 'cd dev/us-east-1'
+                sh 'terraform validate'
+                sh 'pwd'
             }
         }
         stage('Terraform Plan') {
@@ -36,6 +38,7 @@ pipeline {
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
                         credentialsId: 'aws-creds'
                     ]]) {
+                        sh 'cd dev/us-east-1'
                         sh 'terraform plan'
                 }
 	        }
@@ -77,12 +80,14 @@ pipeline {
             when {
                 equals expected: true, actual: params.destroy
             } 
-            steps {          
+            steps {      
+                sh 'cd dev/us-east-1'    
                 sh 'terraform destroy --auto-approve'    
             }
         }
         stage('Run Bash Script') {
             steps {
+                
                 sh '''
                     #!/bin/bash
                     # For example:
