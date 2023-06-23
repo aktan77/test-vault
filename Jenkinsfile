@@ -14,6 +14,7 @@ pipeline {
         stage('Terraform Validate') {
             steps {
                 sh 'terraform validate'
+                sh 'pwd'
             }
         }
 
